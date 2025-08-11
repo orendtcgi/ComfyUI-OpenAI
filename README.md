@@ -1,3 +1,5 @@
+Updated to use latest api models for Vision captioning.
+
 # ComfyUI OpenAI Nodes
 
 ![Cover Image](cover.png)
