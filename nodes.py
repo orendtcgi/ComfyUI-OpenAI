@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from dotenv import load_dotenv
 import folder_paths
-import openai
+from openai import OpenAI  # Import the client class directly
 
 # -------------------------------
 # Load environment variables
@@ -74,8 +74,8 @@ class OpenAICaptionImage:
                 f"OPENAI_API_KEY not found. Checked: {env_paths}"
             )
 
-        # Set global API key (avoids proxies error)
-        openai.api_key = api_key
+        # Create OpenAI client instance (new API style)
+        client = OpenAI(api_key=api_key)
 
         # Convert tensor to PIL Image
         pil_image = Image.fromarray(
@@ -87,9 +87,9 @@ class OpenAICaptionImage:
         pil_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
-        # Make API call
+        # Make API call using the client instance
         try:
-            response = openai.chat.completions.create(
+            response = client.chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": system_prompt},
